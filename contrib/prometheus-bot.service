@@ -1,0 +1,10 @@
+[Unit]
+Description=Alert bot for telegram
+
+[Service]
+ExecStart=/usr/bin/prometheus_bot -c /etc/prometheus-bot/config.yml -t /etc/prometheus-bot/hideman.tmpl
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
