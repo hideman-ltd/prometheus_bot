@@ -1,0 +1,33 @@
+{{ $length := len .GroupLabels -}} {{ if ne $length 0 }}
+<b>Grouped for:</b>
+{{ range $key,$val := .GroupLabels -}}
+    {{$key}}: <code>{{$val}}</code>
+{{ end -}}
+{{ end -}}
+{{if eq .Status "firing"}}
+Status: <b>{{.Status | str_UpperCase}}  </b>
+{{end -}}
+{{if eq .Status "resolved"}}
+Status: <b>{{.Status | str_UpperCase}}  </b>
+{{end }}
+<b>Active Alert List:</b>
+|------------------------------------|
+{{ range $val := .Alerts }}
+<b>Alert:</b> <a href="{{ $val.GeneratorURL }}">{{ index $val.Labels "alertname" }}</a>
+  {{ range $key, $value := $val.Annotations -}}
+  {{ if eq $key "description" }}
+<b>Description:</b> {{$value}}
+    {{- end -}}
+  {{- end }}
+  {{$severity := index $val.Labels "severity" -}}
+  {{if eq $severity "warning" }}
+<b>Severity:</b> {{ $severity }} ⚠️
+  {{else if eq $severity "critical" -}}
+<b>Severity:</b> {{$severity}} ☠️
+  {{else -}}
+<b>Severity:</b> {{$severity}}
+  {{ end }}
+<b>Current value:</b> {{ index $val.Labels "state" }}
+|------------------------------------|
+{{- end -}}
+
