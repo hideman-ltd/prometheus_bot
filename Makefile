@@ -1,6 +1,6 @@
 .PHONY: clean rpm
 
-TARGET=prometheus_bot
+TARGET   := prometheus_bot
 
 # commit for GIT_VER is the last original commit before fork
 GIT_VER  := $(shell git rev-list e0f5fb28..HEAD --count)
@@ -17,7 +17,7 @@ clean:
 	rm -f bot.log
 	rm -rf rpm
 
-rpm: $(TARGET)
+rpm: all
 	rpmbuild -bb \
 		--define "_sourcedir ${shell pwd}" \
 		--define "_builddir ${shell pwd}" \
